@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Адмін-панель — decor_rizdvo</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin-body">
+
+<div id="loginScreen" class="login-box">
+  <h2>Вхід в адмін-панель</h2>
+  <p class="section-sub" style="margin-bottom:20px;">Введіть email та пароль адміністратора (створюється в Firebase, див. README, крок 3).</p>
+  <form id="loginForm">
+    <div style="margin-bottom:14px;">
+      <label for="email">Email</label>
+      <input type="email" id="email" required>
+    </div>
+    <div style="margin-bottom:18px;">
+      <label for="password">Пароль</label>
+      <input type="password" id="password" required>
+    </div>
+    <button type="submit" class="btn" style="width:100%;">Увійти</button>
+    <div id="loginMsg" style="margin-top:12px;color:#7a1f2b;font-weight:bold;"></div>
+  </form>
+</div>
+
+<div id="adminScreen" class="admin-wrap" style="display:none;">
+  <div class="topbar">
+    <h2 style="margin:0;">Заявки клієнтів</h2>
+    <div>
+      <span id="userEmail" style="margin-right:14px;color:#6e6a5e;font-size:.9rem;"></span>
+      <button class="btn secondary" id="logoutBtn" style="color:#1b4332;border-color:#1b4332;">Вийти</button>
+    </div>
+  </div>
+  <div id="ordersList"></div>
+  <p id="emptyMsg" style="display:none;color:#6e6a5e;">Заявок поки немає.</p>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

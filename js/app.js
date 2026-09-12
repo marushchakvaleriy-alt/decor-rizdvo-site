@@ -1,0 +1,54 @@
+// =====================================================================
+// Логіка форми заявки на головній сторінці.
+// Кожна відправлена заявка зберігається у Firestore, у колекцію "orders".
+// Переглянути заявки можна на сторінці admin.html після входу.
+// =====================================================================
+
+const db = firebase.firestore();
+
+const form = document.getElementById("orderForm");
+const formMsg = document.getElementById("formMsg");
+
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const interest = document.getElementById("interest").value;
+  const message = document.getElementById("message").value.trim();
+
+  if (!name || !phone) {
+    showMsg("Будь ласка, заповніть ім'я та телефон.", true);
+    return;
+  }
+
+  const submitBtn = form.querySelector("button[type=submit]");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Надсилаємо...";
+
+  db.collection("orders").add({
+    name: name,
+    phone: phone,
+    interest: interest,
+    message: message,
+    status: "new",
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(function () {
+    showMsg("Дякуємо! Ваша заявка надіслана — ми скоро з вами зв'яжемось. 🎄", false);
+    form.reset();
+  })
+  .catch(function (error) {
+    console.error("Помилка при відправці заявки:", error);
+    showMsg("Щось пішло не так. Спробуйте ще раз або напишіть нам напряму в Instagram.", true);
+  })
+  .finally(function () {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Надіслати заявку";
+  });
+});
+
+function showMsg(text, isError) {
+  formMsg.textContent = text;
+  formMsg.className = isError ? "err" : "ok";
+}
