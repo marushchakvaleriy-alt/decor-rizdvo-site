@@ -62,11 +62,10 @@
     <div id="categoriesList"></div>
   </div>
 
-  <!-- Товари -->
   <div id="productsTab" class="tab-content" style="display:none;">
     <h2 style="margin:4px 0 16px;">Керування товарами</h2>
-    <form id="productForm" class="admin-form" style="margin-bottom:20px; background:#fff; padding:20px; border-radius:10px; box-shadow:0 3px 10px rgba(0,0,0,.05);">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+    <form id="productForm" class="admin-form">
+      <div class="form-grid">
         <div>
           <label for="prodName">Назва товару</label>
           <input type="text" id="prodName" required>
@@ -78,24 +77,30 @@
           </select>
         </div>
       </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:10px;">
+      <div class="form-grid" style="margin-top:16px;">
         <div>
           <label for="prodPrice">Ціна (грн)</label>
           <input type="number" id="prodPrice" required>
         </div>
         <div>
-          <label for="prodImage">Посилання на фото (URL або шлях)</label>
-          <input type="text" id="prodImage" placeholder="Наприклад: img/yalynka.jpg" required>
+          <label for="prodImage">Посилання на фото</label>
+          <input type="text" id="prodImage" placeholder="Наприклад: img/1.jpg, img/2.jpg" required>
+          <span class="hint">Якщо фотографій кілька, вкажіть їх через кому.</span>
         </div>
       </div>
-      <div style="margin-top:10px; margin-bottom:14px;">
-        <label for="prodDesc">Опис</label>
+      <div style="margin-top:16px;">
+        <label for="prodChar">Характеристики</label>
+        <textarea id="prodChar" rows="3" placeholder="Кожна з нового рядка, наприклад:&#10;Висота: 65 см&#10;Матеріал: Лита гілка"></textarea>
+        <span class="hint">Ці дані будуть красиво виведені списком у картці товару.</span>
+      </div>
+      <div style="margin-top:16px; margin-bottom:20px;">
+        <label for="prodDesc">Опис товару (додатковий текст)</label>
         <textarea id="prodDesc" rows="3"></textarea>
       </div>
       <button type="submit" class="btn" id="prodSubmitBtn">Додати товар</button>
       <span id="prodUploadStatus" style="margin-left:10px; font-weight:bold; color:var(--dark);"></span>
     </form>
-    <div id="productsList" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;"></div>
+    <div id="productsList" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:20px;"></div>
   </div>
 </div>
 

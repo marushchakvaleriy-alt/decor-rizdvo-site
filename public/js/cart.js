@@ -61,44 +61,46 @@ function updateCartUI() {
       cartItemsList.innerHTML = "<p style='color:var(--muted); text-align:center;'>Кошик порожній</p>";
     } else {
       cartItemsList.innerHTML = cart.map(item => `
-        <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:15px;">
-          <div style="width:60px; height:60px; background-image:url('${item.imageUrl}'); background-size:cover; background-position:center; border-radius:8px;"></div>
-          <div style="flex-grow:1;">
-            <h4 style="margin:0 0 4px; font-size:1rem;">${item.name}</h4>
-            <div style="color:var(--dark); font-weight:bold;">${item.price} грн</div>
+        <div class="cart-item">
+          <img src="${item.imageUrl}" class="cart-item-img" alt="${item.name}">
+          <div class="cart-item-info">
+            <h4>${item.name}</h4>
+            <div class="price">${item.price} грн</div>
+            <div class="cart-qty-ctrl">
+              <button onclick="changeQty('${item.id}', -1)" class="qty-btn">-</button>
+              <span>${item.qty}</span>
+              <button onclick="changeQty('${item.id}', 1)" class="qty-btn">+</button>
+            </div>
           </div>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <button onclick="changeQty('${item.id}', -1)" style="width:28px; height:28px; border-radius:50%; border:1px solid #ddd; background:#fff; cursor:pointer;">-</button>
-            <span style="font-weight:bold; width:20px; text-align:center;">${item.qty}</span>
-            <button onclick="changeQty('${item.id}', 1)" style="width:28px; height:28px; border-radius:50%; border:1px solid #ddd; background:#fff; cursor:pointer;">+</button>
-          </div>
-          <button onclick="removeFromCart('${item.id}')" style="background:none; border:none; color:var(--berry); cursor:pointer; font-size:1.2rem;" title="Видалити">×</button>
+          <button onclick="removeFromCart('${item.id}')" class="remove-btn" title="Видалити">&times;</button>
         </div>
       `).join("");
     }
   }
 }
 
-// Модалка кошика
+// Модалка кошика (Sidebar)
 document.addEventListener("DOMContentLoaded", () => {
   updateCartUI(); // Ініціалізація при завантаженні
   
   const cartBtn = document.getElementById("cartBtn");
-  const cartModal = document.getElementById("cartModal");
+  const cartOverlay = document.getElementById("cartOverlay");
   const closeCartBtn = document.getElementById("closeCartBtn");
   
-  if (cartBtn && cartModal) {
+  if (cartBtn && cartOverlay) {
     cartBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      cartModal.style.display = "flex";
+      cartOverlay.classList.add("active");
     });
     
-    closeCartBtn.addEventListener("click", () => {
-      cartModal.style.display = "none";
-    });
+    if (closeCartBtn) {
+      closeCartBtn.addEventListener("click", () => {
+        cartOverlay.classList.remove("active");
+      });
+    }
     
-    cartModal.addEventListener("click", (e) => {
-      if (e.target === cartModal) cartModal.style.display = "none";
+    cartOverlay.addEventListener("click", (e) => {
+      if (e.target === cartOverlay) cartOverlay.classList.remove("active");
     });
   }
 });

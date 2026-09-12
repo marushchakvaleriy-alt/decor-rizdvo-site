@@ -1,5 +1,5 @@
 // =====================================================================
-// Динамічний каталог з Firebase
+// Динамічний каталог з Firebase (Premium Design)
 // =====================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
       catalogFilter.appendChild(btn);
     });
     
-    // Кнопка "Всі товари" (вже в HTML, додаємо логіку)
+    // Кнопка "Всі товари"
     const allBtn = catalogFilter.querySelector('[data-category="all"]');
     if (allBtn) {
       allBtn.addEventListener("click", () => {
@@ -69,28 +69,85 @@ document.addEventListener("DOMContentLoaded", () => {
       : allProducts.filter(p => p.categoryId === categoryId);
       
     if (filtered.length === 0) {
-      catalogGrid.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:var(--muted);'>У цій категорії поки немає товарів.</p>";
+      catalogGrid.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:var(--muted); font-size:1.1rem;'>У цій категорії поки немає товарів.</p>";
       return;
     }
     
     filtered.forEach((prod, index) => {
       const div = document.createElement("div");
-      div.className = `card reveal d${(index % 4) + 1} visible`; // Одразу visible для динамічних
-      div.style.paddingBottom = "22px";
+      div.className = `card reveal d${(index % 4) + 1} visible`;
       
-      // Безпечні параметри для onClick
+      // Images
+      let images = prod.images || (prod.imageUrl ? [prod.imageUrl] : []);
+      if (images.length === 0) images = ['img/placeholder.jpg'];
+      const firstImage = images[0];
+      
       const safeName = prod.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-      const safeUrl = prod.imageUrl ? prod.imageUrl.replace(/'/g, "\\'") : '';
+      const safeUrl = firstImage.replace(/'/g, "\\'");
+      
+      // Setup Image HTML (Carousel if > 1)
+      let thumbHtml = '';
+      if (images.length > 1) {
+        const slides = images.map(img => `<img src="${img}" class="carousel-slide" alt="${safeName}">`).join("");
+        thumbHtml = `
+          <div class="carousel-wrap" data-index="0" data-total="${images.length}">
+            <div class="carousel-track">${slides}</div>
+            <button class="carousel-btn prev" aria-label="Previous image">‹</button>
+            <button class="carousel-btn next" aria-label="Next image">›</button>
+          </div>
+        `;
+      } else {
+        thumbHtml = `<img src="${firstImage}" alt="${safeName}" style="width:100%; height:100%; object-fit:cover;">`;
+      }
+      
+      // Characteristics
+      let charHtml = '';
+      if (prod.characteristics && prod.characteristics.length > 0) {
+        charHtml = `<ul class="char-list">` + 
+          prod.characteristics.map(c => {
+            const parts = c.split(":");
+            if (parts.length > 1) {
+              return `<li><span>${escapeHtml(parts[0])}</span> <strong>${escapeHtml(parts.slice(1).join(":"))}</strong></li>`;
+            }
+            return `<li>${escapeHtml(c)}</li>`;
+          }).join("") + 
+          `</ul>`;
+      }
       
       div.innerHTML = `
-        <div class="thumb" style="background-image:url('${prod.imageUrl}'); background-size:cover; background-position:center; height:220px;">
-          ${prod.price ? `<div style="position:absolute; top:10px; right:10px; background:var(--gold); color:var(--dark); font-weight:bold; padding:4px 10px; border-radius:12px; font-size:.85rem;">${prod.price} грн</div>` : ''}
+        <div class="thumb">
+          ${thumbHtml}
+          ${prod.price ? `<div class="price-badge">${prod.price} грн</div>` : ''}
         </div>
-        <h3>${escapeHtml(prod.name)}</h3>
-        <p>${escapeHtml(prod.desc || "")}</p>
-        <button onclick="addToCart('${prod.id}', '${safeName}', ${prod.price || 0}, '${safeUrl}')" class="btn" style="margin:0 20px; width:calc(100% - 40px); justify-content:center;">Додати в кошик</button>
+        <div class="card-content">
+          <h3>${escapeHtml(prod.name)}</h3>
+          <p>${escapeHtml(prod.desc || "")}</p>
+          ${charHtml}
+          <button onclick="addToCart('${prod.id}', '${safeName}', ${prod.price || 0}, '${safeUrl}')" class="btn">Додати в кошик</button>
+        </div>
       `;
       catalogGrid.appendChild(div);
+      
+      // Add Carousel Logic
+      if (images.length > 1) {
+        const wrap = div.querySelector('.carousel-wrap');
+        const track = div.querySelector('.carousel-track');
+        const btnPrev = div.querySelector('.prev');
+        const btnNext = div.querySelector('.next');
+        let currentIdx = 0;
+        
+        btnPrev.addEventListener('click', (e) => {
+          e.stopPropagation();
+          currentIdx = (currentIdx > 0) ? currentIdx - 1 : images.length - 1;
+          track.style.transform = \`translateX(-\${currentIdx * 100}%)\`;
+        });
+        
+        btnNext.addEventListener('click', (e) => {
+          e.stopPropagation();
+          currentIdx = (currentIdx < images.length - 1) ? currentIdx + 1 : 0;
+          track.style.transform = \`translateX(-\${currentIdx * 100}%)\`;
+        });
+      }
     });
   }
 

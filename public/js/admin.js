@@ -231,17 +231,27 @@ productForm.addEventListener("submit", async (e) => {
   const categoryId = prodCategorySelect.value;
   const price = Number(document.getElementById("prodPrice").value);
   const desc = document.getElementById("prodDesc").value.trim();
-  const imageUrl = document.getElementById("prodImage").value.trim();
+  
+  // Parse Images (comma separated)
+  const imageInput = document.getElementById("prodImage").value.trim();
+  const images = imageInput.split(",").map(url => url.trim()).filter(url => url.length > 0);
+  const imageUrl = images.length > 0 ? images[0] : "";
+  
+  // Parse Characteristics (newline separated, key: value)
+  const charInput = document.getElementById("prodChar").value.trim();
+  const characteristics = charInput.split("\n")
+    .map(line => line.trim())
+    .filter(line => line.length > 0);
   
   if (!categoryId) { alert("Оберіть категорію!"); return; }
-  if (!imageUrl) { alert("Вкажіть посилання на фото!"); return; }
+  if (images.length === 0) { alert("Вкажіть посилання на фото!"); return; }
   
   prodSubmitBtn.disabled = true;
   prodUploadStatus.textContent = "Збереження товару...";
   
   try {
     await db.collection("products").add({
-      name, categoryId, price, desc, imageUrl,
+      name, categoryId, price, desc, imageUrl, images, characteristics,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     
@@ -264,14 +274,18 @@ function loadProducts() {
     productsList.innerHTML = "";
     snapshot.forEach(doc => {
       const prod = doc.data();
+      const firstImage = (prod.images && prod.images.length > 0) ? prod.images[0] : prod.imageUrl;
+      
       const div = document.createElement("div");
       div.className = "card";
       div.style.paddingBottom = "10px";
       div.innerHTML = `
-        <div class="thumb" style="background-image:url('${prod.imageUrl}'); background-size:cover; background-position:center; height:200px;"></div>
-        <h3 style="margin:10px 14px 4px;">${escapeHtml(prod.name)}</h3>
-        <p class="price" style="margin:0 14px 10px;">${prod.price} грн</p>
-        <button class="btn secondary danger" style="margin:0 14px; color:var(--berry); border-color:var(--berry);" onclick="deleteProduct('${doc.id}')">Видалити товар</button>
+        <div class="thumb" style="background-image:url('${firstImage}'); background-size:cover; background-position:center; height:200px;"></div>
+        <div class="card-content" style="padding: 10px 14px;">
+          <h3 style="margin:0 0 4px;">${escapeHtml(prod.name)}</h3>
+          <p class="price" style="margin:0 0 10px;">${prod.price} грн</p>
+          <button class="btn secondary danger" style="margin:0; color:var(--berry); border-color:var(--berry); padding: 8px 12px; font-size:0.85rem;" onclick="deleteProduct('${doc.id}')">Видалити товар</button>
+        </div>
       `;
       productsList.appendChild(div);
     });
