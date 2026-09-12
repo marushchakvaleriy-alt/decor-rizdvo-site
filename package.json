@@ -1,0 +1,12 @@
+{
+  "name": "decor-rizdvo-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Сайт-вітрина decor_rizdvo — деплой на GitHub Pages",
+  "scripts": {
+    "deploy": "gh-pages -d public"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.1.1"
+  }
+}

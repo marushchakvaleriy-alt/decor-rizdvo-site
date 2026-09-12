@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Колекція "orders" — заявки клієнтів
+    match /orders/{orderId} {
+      // Будь-хто (навіть без входу) може СТВОРИТИ заявку —
+      // це потрібно, щоб форма на сайті працювала для клієнтів.
+      allow create: if true;
+
+      // Читати, змінювати статус і видаляти заявки може
+      // тільки той, хто увійшов через Firebase Authentication
+      // (тобто ви, як адміністратор).
+      allow read, update, delete: if request.auth != null;
+    }
+  }
+}
