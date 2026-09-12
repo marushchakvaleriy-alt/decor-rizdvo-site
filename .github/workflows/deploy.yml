@@ -1,15 +1,20 @@
 name: Deploy to GitHub Pages
 
 on:
+  # Запускає деплой при пуші в гілку main
   push:
     branches: ["main"]
+  
+  # Дозволяє запускати деплой вручну з вкладки Actions
   workflow_dispatch:
 
+# Встановлюємо права, необхідні для деплою на GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Запобігаємо одночасному запуску кількох деплоїв
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -30,7 +35,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          # Вказуємо шлях до вашої папки зі статичним сайтом
+          path: './public'
           
       - name: Deploy to GitHub Pages
         id: deployment

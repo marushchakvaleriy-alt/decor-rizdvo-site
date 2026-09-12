@@ -87,11 +87,24 @@ function renderOrder(id, order) {
   const statusClass = order.status === "done" ? "done" : "new";
   const statusLabel = order.status === "done" ? "Оброблено" : "Нова";
 
+  let cartHtml = "";
+  if (order.cart && order.cart.length > 0) {
+    const total = order.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    cartHtml = `<div style="margin-top:10px; background:#f9f9f9; padding:10px; border-radius:8px;">
+      <strong style="font-size:.85rem; color:var(--dark);">Замовлено:</strong>
+      <ul style="margin:4px 0; padding-left:20px; font-size:.85rem;">
+        ${order.cart.map(c => `<li>${escapeHtml(c.name)} x${c.qty} (${c.price * c.qty} грн)</li>`).join("")}
+      </ul>
+      <div style="font-size:.85rem; font-weight:bold; margin-top:4px;">Сума по товарах: ${total} грн</div>
+    </div>`;
+  }
+
   row.innerHTML = `
     <div>
       <h4>${escapeHtml(order.name || "Без імені")} <span class="status-pill ${statusClass}">${statusLabel}</span></h4>
       <div class="meta">${escapeHtml(order.phone || "")} · ${escapeHtml(order.interest || "")} · ${date}</div>
       ${order.message ? `<div class="msg">${escapeHtml(order.message)}</div>` : ""}
+      ${cartHtml}
     </div>
     <div class="order-actions">
       <button class="toggle-status">${order.status === "done" ? "Позначити новою" : "Позначити оброблено"}</button>
@@ -119,3 +132,161 @@ function escapeHtml(str) {
   div.textContent = str;
   return div.innerHTML;
 }
+
+// =====================================================================
+// Вкладки (Tabs)
+// =====================================================================
+const tabBtns = document.querySelectorAll(".tab-btn");
+const tabContents = document.querySelectorAll(".tab-content");
+
+tabBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    // Зняти активність з усіх
+    tabBtns.forEach(b => { b.classList.remove("active"); b.classList.add("secondary"); });
+    tabContents.forEach(c => c.style.display = "none");
+    
+    // Активувати поточну
+    btn.classList.add("active");
+    btn.classList.remove("secondary");
+    const target = document.getElementById(btn.getAttribute("data-target"));
+    if (target) {
+      target.style.display = "block";
+      if (btn.getAttribute("data-target") === "categoriesTab") loadCategories();
+      if (btn.getAttribute("data-target") === "productsTab") loadProductsAndCategories();
+    }
+  });
+});
+
+// =====================================================================
+// Категорії
+// =====================================================================
+const categoryForm = document.getElementById("categoryForm");
+const categoriesList = document.getElementById("categoriesList");
+
+categoryForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name = document.getElementById("catName").value.trim();
+  if (!name) return;
+  
+  try {
+    await db.collection("categories").add({ name, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+    document.getElementById("catName").value = "";
+    loadCategories();
+  } catch (error) {
+    console.error("Помилка створення категорії:", error);
+    alert("Помилка створення категорії.");
+  }
+});
+
+function loadCategories() {
+  db.collection("categories").orderBy("createdAt", "asc").get().then(snapshot => {
+    categoriesList.innerHTML = "";
+    snapshot.forEach(doc => {
+      const cat = doc.data();
+      const div = document.createElement("div");
+      div.className = "order-row";
+      div.innerHTML = `
+        <div><h4>${escapeHtml(cat.name)}</h4></div>
+        <div class="order-actions"><button class="danger" onclick="deleteCategory('${doc.id}')">Видалити</button></div>
+      `;
+      categoriesList.appendChild(div);
+    });
+  });
+}
+
+window.deleteCategory = async function(id) {
+  if (confirm("Видалити цю категорію?")) {
+    await db.collection("categories").doc(id).delete();
+    loadCategories();
+  }
+};
+
+// =====================================================================
+// Товари
+// =====================================================================
+const productForm = document.getElementById("productForm");
+const productsList = document.getElementById("productsList");
+const prodCategorySelect = document.getElementById("prodCategory");
+const prodUploadStatus = document.getElementById("prodUploadStatus");
+const prodSubmitBtn = document.getElementById("prodSubmitBtn");
+
+function loadProductsAndCategories() {
+  // Завантажити категорії для селекту
+  db.collection("categories").orderBy("createdAt", "asc").get().then(snapshot => {
+    prodCategorySelect.innerHTML = '<option value="">Оберіть категорію...</option>';
+    snapshot.forEach(doc => {
+      const cat = doc.data();
+      prodCategorySelect.innerHTML += `<option value="${doc.id}">${escapeHtml(cat.name)}</option>`;
+    });
+  });
+  
+  // Завантажити товари
+  loadProducts();
+}
+
+productForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  
+  const name = document.getElementById("prodName").value.trim();
+  const categoryId = prodCategorySelect.value;
+  const price = Number(document.getElementById("prodPrice").value);
+  const desc = document.getElementById("prodDesc").value.trim();
+  const imageUrl = document.getElementById("prodImage").value.trim();
+  
+  if (!categoryId) { alert("Оберіть категорію!"); return; }
+  if (!imageUrl) { alert("Вкажіть посилання на фото!"); return; }
+  
+  prodSubmitBtn.disabled = true;
+  prodUploadStatus.textContent = "Збереження товару...";
+  
+  try {
+    await db.collection("products").add({
+      name, categoryId, price, desc, imageUrl,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    // Очистити форму
+    productForm.reset();
+    prodUploadStatus.textContent = "Товар додано!";
+    setTimeout(() => prodUploadStatus.textContent = "", 3000);
+    loadProducts();
+  } catch (error) {
+    console.error("Помилка:", error);
+    prodUploadStatus.textContent = "Помилка!";
+    prodUploadStatus.style.color = "red";
+  } finally {
+    prodSubmitBtn.disabled = false;
+  }
+});
+
+function loadProducts() {
+  db.collection("products").orderBy("createdAt", "desc").get().then(snapshot => {
+    productsList.innerHTML = "";
+    snapshot.forEach(doc => {
+      const prod = doc.data();
+      const div = document.createElement("div");
+      div.className = "card";
+      div.style.paddingBottom = "10px";
+      div.innerHTML = `
+        <div class="thumb" style="background-image:url('${prod.imageUrl}'); background-size:cover; background-position:center; height:200px;"></div>
+        <h3 style="margin:10px 14px 4px;">${escapeHtml(prod.name)}</h3>
+        <p class="price" style="margin:0 14px 10px;">${prod.price} грн</p>
+        <button class="btn secondary danger" style="margin:0 14px; color:var(--berry); border-color:var(--berry);" onclick="deleteProduct('${doc.id}')">Видалити товар</button>
+      `;
+      productsList.appendChild(div);
+    });
+  });
+}
+
+window.deleteProduct = async function(id) {
+  if (confirm("Видалити товар назавжди?")) {
+    try {
+      await db.collection("products").doc(id).delete();
+      loadProducts();
+    } catch (e) {
+      console.error(e);
+      alert("Помилка видалення.");
+    }
+  }
+};
+

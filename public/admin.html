@@ -28,17 +28,75 @@
 
 <div id="adminScreen" class="admin-wrap" style="display:none;">
   <div class="topbar">
-    <div>
+    <div style="display:flex; align-items:center; gap:20px;">
       <a href="index.html" class="admin-back">← На сайт</a>
-      <h2 style="margin:4px 0 0;">Заявки клієнтів</h2>
+      <div class="admin-tabs" style="display:flex; gap:10px;">
+        <button class="btn tab-btn active" data-target="ordersTab">Заявки</button>
+        <button class="btn tab-btn secondary" data-target="categoriesTab">Категорії</button>
+        <button class="btn tab-btn secondary" data-target="productsTab">Товари</button>
+      </div>
     </div>
     <div>
       <span id="userEmail" style="margin-right:14px;color:#6e6a5e;font-size:.9rem;"></span>
       <button class="btn secondary" id="logoutBtn" style="color:#1b4332;border-color:#1b4332;">Вийти</button>
     </div>
   </div>
-  <div id="ordersList"></div>
-  <p id="emptyMsg" style="display:none;color:#6e6a5e;">Заявок поки немає.</p>
+
+  <!-- Заявки -->
+  <div id="ordersTab" class="tab-content active">
+    <h2 style="margin:4px 0 16px;">Заявки клієнтів</h2>
+    <div id="ordersList"></div>
+    <p id="emptyMsg" style="display:none;color:#6e6a5e;">Заявок поки немає.</p>
+  </div>
+
+  <!-- Категорії -->
+  <div id="categoriesTab" class="tab-content" style="display:none;">
+    <h2 style="margin:4px 0 16px;">Керування категоріями</h2>
+    <form id="categoryForm" class="admin-form" style="margin-bottom:20px; background:#fff; padding:20px; border-radius:10px; box-shadow:0 3px 10px rgba(0,0,0,.05);">
+      <div style="margin-bottom:10px;">
+        <label for="catName">Назва категорії</label>
+        <input type="text" id="catName" required>
+      </div>
+      <button type="submit" class="btn">Додати категорію</button>
+    </form>
+    <div id="categoriesList"></div>
+  </div>
+
+  <!-- Товари -->
+  <div id="productsTab" class="tab-content" style="display:none;">
+    <h2 style="margin:4px 0 16px;">Керування товарами</h2>
+    <form id="productForm" class="admin-form" style="margin-bottom:20px; background:#fff; padding:20px; border-radius:10px; box-shadow:0 3px 10px rgba(0,0,0,.05);">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div>
+          <label for="prodName">Назва товару</label>
+          <input type="text" id="prodName" required>
+        </div>
+        <div>
+          <label for="prodCategory">Категорія</label>
+          <select id="prodCategory" required>
+            <option value="">Завантаження...</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:10px;">
+        <div>
+          <label for="prodPrice">Ціна (грн)</label>
+          <input type="number" id="prodPrice" required>
+        </div>
+        <div>
+          <label for="prodImage">Посилання на фото (URL або шлях)</label>
+          <input type="text" id="prodImage" placeholder="Наприклад: img/yalynka.jpg" required>
+        </div>
+      </div>
+      <div style="margin-top:10px; margin-bottom:14px;">
+        <label for="prodDesc">Опис</label>
+        <textarea id="prodDesc" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn" id="prodSubmitBtn">Додати товар</button>
+      <span id="prodUploadStatus" style="margin-left:10px; font-weight:bold; color:var(--dark);"></span>
+    </form>
+    <div id="productsList" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;"></div>
+  </div>
 </div>
 
 <!-- Firebase SDK -->
