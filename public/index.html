@@ -6,6 +6,7 @@
 <title>decor_rizdvo — Новорічний декор ручної роботи</title>
 <meta name="description" content="Instagram-магазин новорічного декору ручної роботи з Києва: ялинки зі штучної гілки, вінки, гірлянди та майстер-класи.">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/ar-tryon.css">
 </head>
 <body>
 
@@ -18,7 +19,8 @@
         <li><a href="catalog.html">Каталог</a></li>
         <li><a href="masterclass.html">Майстер-клас</a></li>
         <li><a href="about.html">Про нас</a></li>
-        <li><a href="contact.html">Контакти</a></li><li><a href="admin.html" style="color:var(--gold);">Для адміністратора</a></li>
+        <li><a href="contact.html">Контакти</a></li>
+        <li><a href="#tryon" class="nav-tryon-link" data-open-ar="wreath-classic">📸 Примірка в інтер'єрі</a></li>
       </ul>
     </nav>
     <button class="nav-toggle" aria-label="Меню" aria-expanded="false"><span></span></button>
@@ -35,6 +37,9 @@
         <p class="lead">Створюємо атмосферу затишку, до якої хочеться повертатися. Авторські ялинки, вінки та гірлянди — з душею, для тих, хто хоче свята, а не масмаркету.</p>
         <div class="hero-actions">
           <a href="contact.html" class="btn">Залишити заявку</a>
+          <button type="button" class="btn-tryon-pill" data-open-ar="wreath-classic">
+            <span class="pill-cam-ic">📸</span> Приміряти вінок на двері
+          </button>
           <a href="catalog.html" class="btn secondary">Переглянути каталог</a>
         </div>
       </div>
@@ -43,7 +48,9 @@
         <span class="sparkle s2">✧</span>
         <span class="sparkle s3">✦</span>
         <span class="sparkle s4">✧</span>
-        <div class="hero-tree">🎄</div>
+        <div class="hero-tree" style="cursor:pointer;" data-open-ar="wreath-classic" title="Натисніть для примірки через камеру">
+          <img src="img/ar/wreath-classic.png" alt="Новорічний вінок" style="width:250px; filter:drop-shadow(0 18px 30px rgba(0,0,0,0.45));">
+        </div>
       </div>
     </div>
   </div>
@@ -57,15 +64,25 @@
 
     <div class="grid">
       <div class="card reveal d1">
-        <div class="thumb"><div class="badge-icon">🎄</div></div>
+        <div class="thumb" style="background:linear-gradient(135deg,#1b4332,#0d241c);">
+          <img src="img/ar/tree-65cm.png" alt="Ялинка зі штучної гілки" style="height:100px; object-fit:contain;">
+        </div>
         <h3>Ялинка зі штучної гілки</h3>
         <p>Висота 65 см. Авторська збірка, акуратна форма, стійка основа. Ідеально для дому чи як подарунок.</p>
+        <button type="button" class="btn-tryon-pill" style="margin:0 20px 10px; font-size:0.82rem; padding:6px 14px;" data-open-ar="tree-65cm">
+          <span class="pill-cam-ic">📸</span> Приміряти в кімнаті
+        </button>
         <a class="card-cta" href="catalog.html#yalynka">Дізнатись більше →</a>
       </div>
       <div class="card reveal d2">
-        <div class="thumb alt2"><div class="badge-icon">🎀</div></div>
+        <div class="thumb alt2" style="background:linear-gradient(135deg,#25191c,#15382b);">
+          <img src="img/ar/wreath-classic.png" alt="Новорічні вінки" style="height:100px; object-fit:contain;">
+        </div>
         <h3>Новорічні вінки</h3>
         <p>Ручна робота, натуральні та декоративні матеріали. Прикрасять двері чи стіну теплом свята.</p>
+        <button type="button" class="btn-tryon-pill" style="margin:0 20px 10px; font-size:0.82rem; padding:6px 14px;" data-open-ar="wreath-classic">
+          <span class="pill-cam-ic">📸</span> Приміряти на двері
+        </button>
         <a class="card-cta" href="catalog.html#vinky">Дізнатись більше →</a>
       </div>
       <div class="card reveal d3">
@@ -80,6 +97,18 @@
         <p>Виготовлення ялинки зі штучної гілки власноруч — чудова сімейна активність або подарунок-враження.</p>
         <a class="card-cta" href="masterclass.html">Записатись →</a>
       </div>
+    </div>
+
+    <!-- Інтерактивний AR промо-блок -->
+    <div class="reveal" style="margin-top: 36px; background: linear-gradient(135deg, rgba(20,51,42,0.95), rgba(14,36,29,0.98)); border: 1.5px solid var(--gold); border-radius: 18px; padding: 26px 30px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.18);">
+      <div style="max-width: 620px;">
+        <span class="badge-chip" style="margin-bottom:8px; font-size:0.75rem; background:var(--gold); color:var(--dark);">✨ Інтерактивна новинка</span>
+        <h3 style="color:#ffffff; margin:0 0 8px; font-size:1.35rem; font-family:Cambria,Georgia,serif;">Хочете побачити, як вінок пасуватиме до ваших дверей?</h3>
+        <p style="color:var(--gold-light); margin:0; font-size:0.95rem; line-height:1.5;">Наведіть камеру смартфона, налаштуйте розмір пальцями та приміряйте різні моделі вінків прямо у себе вдома перед замовленням.</p>
+      </div>
+      <button type="button" class="btn-tryon-pill" data-open-ar="wreath-classic" style="font-size:1rem; padding:13px 24px;">
+        <span class="pill-cam-ic">📸</span> Спробувати примірку онлайн
+      </button>
     </div>
   </div>
 </section>
@@ -165,7 +194,7 @@
           <li><a href="catalog.html">Каталог</a></li>
           <li><a href="masterclass.html">Майстер-клас</a></li>
           <li><a href="about.html">Про нас</a></li>
-          <li><a href="contact.html">Контакти</a></li><li><a href="admin.html" style="color:var(--gold);">Для адміністратора</a></li>
+          <li><a href="contact.html">Контакти</a></li>
         </ul>
       </div>
       <div>
@@ -184,6 +213,11 @@
   </div>
 </footer>
 
+<button type="button" class="ar-floating-fab" data-open-ar="wreath-classic" title="Приміряти вінок через камеру">
+  <span class="pill-cam-ic">📸</span> Приміряти вінок
+</button>
+
 <script src="js/main.js"></script>
+<script src="js/ar-tryon.js"></script>
 </body>
 </html>

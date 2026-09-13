@@ -1,25 +1,23 @@
 @echo off
 echo ====================================================
-echo   Auto-deploy to GitHub Pages
+echo   Deploying decor_rizdvo site to GitHub Pages
 echo ====================================================
 echo.
 
-echo [1/2] Saving and pushing changes to GitHub...
-git add .
-git commit -m "Auto deploy from bat file"
-git push origin main
+echo [1/2] Publishing "public" folder to GitHub Pages...
+call npm run deploy
 
 if %ERRORLEVEL% neq 0 (
     echo.
-    echo Error during deployment. Please check your internet connection or try again.
+    echo Deployment failed. Please check the errors above.
+    echo (If this is the first time - run setup.bat first)
     pause
     exit /b %ERRORLEVEL%
 )
 
 echo.
-echo [2/2] Success! Files sent to GitHub.
-echo.
-echo Your site will be updated in 1-2 minutes at:
+echo [2/2] Deployment completed successfully!
+echo Your site will appear (or update) in 1-2 minutes at:
 echo https://marushchakvaleriy-alt.github.io/decor-rizdvo-site/
 echo.
 pause
