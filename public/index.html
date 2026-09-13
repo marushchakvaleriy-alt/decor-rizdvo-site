@@ -7,6 +7,7 @@
 <meta name="description" content="Instagram-магазин новорічного декору ручної роботи з Києва: ялинки зі штучної гілки, вінки, гірлянди та майстер-класи.">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/ar-tryon.css">
+<link rel="stylesheet" href="css/interactive.css">
 </head>
 <body>
 
@@ -56,6 +57,42 @@
   </div>
 </section>
 
+<!-- ⏳ Святковий таймер зворотного відліку -->
+<section class="countdown-section">
+  <div class="container">
+    <div class="countdown-wrap">
+      <div class="countdown-info">
+        <span class="countdown-icon">⏳</span>
+        <div>
+          <h3 class="countdown-title">До Дня Святого Миколая та Нового Року залишилось:</h3>
+          <p class="countdown-sub">Ручна збірка кожного вінка займає 2–3 дні. Бронюйте заздалегідь, щоб отримати замовлення вчасно до свят!</p>
+        </div>
+      </div>
+      <div class="countdown-clock">
+        <div class="clock-box glow-pulse">
+          <div class="clock-num" id="clockDays">00</div>
+          <div class="clock-label">днів</div>
+        </div>
+        <span class="clock-sep">:</span>
+        <div class="clock-box">
+          <div class="clock-num" id="clockHours">00</div>
+          <div class="clock-label">год</div>
+        </div>
+        <span class="clock-sep">:</span>
+        <div class="clock-box">
+          <div class="clock-num" id="clockMins">00</div>
+          <div class="clock-label">хв</div>
+        </div>
+        <span class="clock-sep">:</span>
+        <div class="clock-box">
+          <div class="clock-num" id="clockSecs">00</div>
+          <div class="clock-label">сек</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Виділений тестовий товар для миттєвої перевірки нової функції -->
 <section style="background: linear-gradient(180deg, rgba(20,51,42,0.04) 0%, rgba(20,51,42,0.12) 100%); padding: 36px 0;">
   <div class="container">
@@ -64,7 +101,7 @@
         <img src="img/ar/wreath-ruby.png" alt="Рубіновий вінок" style="max-height: 190px; width: auto; filter: drop-shadow(0 14px 24px rgba(0,0,0,0.55)); cursor: pointer;" data-open-ar="wreath-ruby" title="Клікніть для примірки">
       </div>
       <div style="flex: 1; min-width: 280px;">
-        <span style="display:inline-block; background:var(--berry); color:#ffffff; font-size:0.75rem; font-weight:bold; padding:4px 12px; border-radius:12px; margin-bottom:8px; letter-spacing:0.5px;">
+        <span class="glow-pulse" style="display:inline-block; background:var(--berry); color:#ffffff; font-size:0.75rem; font-weight:bold; padding:4px 12px; border-radius:12px; margin-bottom:8px; letter-spacing:0.5px;">
           ✨ ТЕСТОВИЙ ЗРАЗОК ДЛЯ ПРИМІРКИ
         </span>
         <h3 style="color:#ffffff; font-size:1.55rem; margin:0 0 8px; font-family:Cambria,Georgia,serif;">
@@ -80,6 +117,46 @@
           <span style="color:var(--gold-light); font-size:0.85rem; opacity:0.85;">(Працює з телефона або комп'ютера)</span>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- 🚪 Інтерактивний слайдер До / Після -->
+<section class="ba-section">
+  <div class="container">
+    <div style="text-align: center; max-width: 680px; margin: 0 auto;" class="reveal">
+      <span class="section-kicker">Магія перевтілення</span>
+      <h2 class="section-title">Відчуйте різницю: ваш дім зі святковим декором</h2>
+      <p class="section-sub">Потягніть повзунок по центру ліворуч або праворуч, щоб побачити, як навіть звичайні двері перетворюються на затишну різдвяну казку з вінком decor_rizdvo.</p>
+    </div>
+
+    <div class="ba-slider-container reveal d2">
+      <div class="ba-slider" id="baSlider">
+        <div class="ba-badge before">Звичайні двері</div>
+        <div class="ba-badge after">✨ З вінком decor_rizdvo</div>
+
+        <!-- Зображення "До" -->
+        <div class="ba-image before">
+          <img src="img/ar/sample-door.jpg" alt="Двері без декору">
+        </div>
+
+        <!-- Зображення "Після" -->
+        <div class="ba-image after" id="baAfterImg">
+          <img src="img/ar/sample-door-wreath.jpg" alt="Двері зі святковим вінком">
+        </div>
+
+        <!-- Розділювач -->
+        <div class="ba-handle" id="baHandle">
+          <div class="ba-handle-circle">⮜ ⮞</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ba-cta-strip reveal d3">
+      <button type="button" class="btn-tryon-pill" data-open-ar="wreath-ruby" style="font-size:1.02rem; padding:12px 24px;">
+        <span class="pill-cam-ic">📸</span> Приміряти вінок на власні двері через камеру
+      </button>
+      <a href="catalog.html" class="btn secondary">Переглянути всі вінки в каталозі</a>
     </div>
   </div>
 </section>
@@ -141,6 +218,51 @@
   </div>
 </section>
 
+<!-- 🎯 Інтерактивний квіз-підбірник декору за 3 запитання -->
+<section class="quiz-section" id="quiz">
+  <div class="container">
+    <div style="text-align: center; max-width: 620px; margin: 0 auto;" class="reveal">
+      <span class="section-kicker" style="color:var(--gold-light);">Персональний помічник</span>
+      <h2 class="section-title" style="color:#fff;">Підберіть ідеальний декор за 3 запитання</h2>
+      <p style="color:var(--gold-light); font-size:0.96rem; opacity:0.9; margin:0;">
+        Сумніваєтесь, яку модель чи розмір обрати? Дайте відповідь на 3 прості запитання, і ми миттєво порекомендуємо виріб під ваш інтер'єр!
+      </p>
+    </div>
+
+    <div class="quiz-card reveal d2" id="quizCard">
+      <div class="quiz-progress">
+        <span id="quizStepIndicator">Крок 1 з 3</span>
+        <div class="quiz-bar-bg">
+          <div class="quiz-bar-fill" id="quizBarFill"></div>
+        </div>
+        <span>🎄 decor_rizdvo</span>
+      </div>
+      <div id="quizContent">
+        <h3 class="quiz-question-title">Куди саме ви обираєте декор?</h3>
+        <p class="quiz-question-sub">Оберіть головне місце, яке хочете наповнити святковою атмосферою</p>
+        <div class="quiz-options">
+          <button type="button" class="quiz-opt-btn" onclick="handleQuizAnswer('place', 'door')">
+            <span class="opt-emoji">🚪</span>
+            <span>На вхідні або міжкімнатні двері</span>
+          </button>
+          <button type="button" class="quiz-opt-btn" onclick="handleQuizAnswer('place', 'table')">
+            <span class="opt-emoji">🍽️</span>
+            <span>На святковий стіл або тумбу</span>
+          </button>
+          <button type="button" class="quiz-opt-btn" onclick="handleQuizAnswer('place', 'wall')">
+            <span class="opt-emoji">🪵</span>
+            <span>На камін або головну стіну</span>
+          </button>
+          <button type="button" class="quiz-opt-btn" onclick="handleQuizAnswer('place', 'gift')">
+            <span class="opt-emoji">🎁</span>
+            <span>Як особливий теплий подарунок</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="alt">
   <div class="container">
     <span class="section-kicker reveal">Чому обирають нас</span>
@@ -197,6 +319,58 @@
   </div>
 </section>
 
+<!-- 📸 Відгуки клієнтів та фото з Instagram -->
+<section class="reviews-section" id="reviews">
+  <div class="container">
+    <div style="text-align: center; max-width: 620px; margin: 0 auto;" class="reveal">
+      <span class="section-kicker">Живі емоції та довіра</span>
+      <h2 class="section-title">Як наші вироби зігрівають домівки клієнтів</h2>
+      <p class="section-sub">Справжні фотографії та щирі відгуки від людей, які вже довірили нам новорічний настрій своєї оселі.</p>
+    </div>
+
+    <div class="reviews-grid">
+      <div class="review-card reveal d1">
+        <div class="review-photo-wrap">
+          <img src="img/ar/review-fireplace.jpg" alt="Вінок над каміном у клієнта">
+          <div class="review-insta-tag">📷 @mariya_home • Київ</div>
+        </div>
+        <div class="review-body">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">«Вінок просто казковий! Повісили над каміном у вітальні — і вдома відразу запанувала атмосфера справжнього тепла і свята. Неймовірно якісна збірка, все надійно закріплено, шишки та ягідки як справжні!»</p>
+          <div class="review-author">Марія Коваленко</div>
+          <div class="review-city">Класичний різдвяний вінок</div>
+        </div>
+      </div>
+
+      <div class="review-card reveal d2">
+        <div class="review-photo-wrap">
+          <img src="img/ar/review-table.jpg" alt="Ялинка на святковому столі">
+          <div class="review-insta-tag">📷 @olena_design • Львів</div>
+        </div>
+        <div class="review-body">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">«Замовляли ялиночку 65 см для святкового обіду. Вона виглядає наче жива, дуже пишна, стійка і тепле сяйво гірлянди додає особливого затишку. Дякую за персональне відео перед відправкою!»</p>
+          <div class="review-author">Олена та Сергій</div>
+          <div class="review-city">Ялинка зі штучної гілки 65 см</div>
+        </div>
+      </div>
+
+      <div class="review-card reveal d3">
+        <div class="review-photo-wrap">
+          <img src="img/ar/sample-door-wreath.jpg" alt="Рубіновий вінок на дверях">
+          <div class="review-insta-tag">📷 @natali_interiors • Київ</div>
+        </div>
+        <div class="review-body">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">«Сусіди постійно запитують, де замовляли цей вінок на двері! Оксамитові банти виглядають неймовірно благородно. Дуже сподобалась примірка через камеру на сайті — одразу побачила, як пасуватиме до наших дверей!»</p>
+          <div class="review-author">Наталія Д.</div>
+          <div class="review-city">Рубіновий вінок «Різдвяне Диво»</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section>
   <div class="container">
     <div class="cta-banner reveal">
@@ -241,11 +415,22 @@
   </div>
 </footer>
 
+<!-- 🎵 Плаваючий віджет різдвяного аудіо-настрою -->
+<button type="button" class="audio-mood-btn" id="audioMoodBtn" title="Увімкнути/вимкнути затишний звук каміна та різдвяних передзвонів">
+  <span class="audio-equalizer">
+    <span class="eq-bar"></span>
+    <span class="eq-bar"></span>
+    <span class="eq-bar"></span>
+  </span>
+  <span class="audio-label">Різдвяний настрій 🎵</span>
+</button>
+
 <button type="button" class="ar-floating-fab" data-open-ar="wreath-classic" title="Приміряти вінок через камеру">
   <span class="pill-cam-ic">📸</span> Приміряти вінок
 </button>
 
 <script src="js/main.js"></script>
 <script src="js/ar-tryon.js"></script>
+<script src="js/interactive.js"></script>
 </body>
 </html>
