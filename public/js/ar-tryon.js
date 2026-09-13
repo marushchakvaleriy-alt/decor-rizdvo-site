@@ -8,6 +8,16 @@
 
   // База товарів для примірки
   const AR_ITEMS = {
+    "wreath-ruby": {
+      id: "wreath-ruby",
+      name: "Рубіновий вінок «Різдвяне Диво»",
+      dim: 50,
+      unit: "см",
+      orderName: "Ексклюзивний вінок Рубінове Диво",
+      img: "img/ar/wreath-ruby.png",
+      isTree: false,
+      desc: "Оксамитові банти, рубінові кулі та тепле сяйво"
+    },
     "wreath-classic": {
       id: "wreath-classic",
       name: "Класичний різдвяний вінок",
@@ -53,7 +63,7 @@
   const SAMPLE_DOOR_IMG = "img/ar/sample-door.jpg";
 
   // Стан примірки
-  let currentItemKey = "wreath-classic";
+  let currentItemKey = "wreath-ruby";
   let cameraStream = null;
   let currentFacingMode = "environment"; // за замовчуванням задня камера
   let isUsingSampleBg = false;

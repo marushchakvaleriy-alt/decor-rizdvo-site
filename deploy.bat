@@ -1,23 +1,32 @@
 @echo off
+chcp 65001 >nul
 echo ====================================================
-echo   Deploying decor_rizdvo site to GitHub Pages
+echo   Публікація сайту decor_rizdvo на GitHub Pages
 echo ====================================================
 echo.
 
-echo [1/2] Publishing "public" folder to GitHub Pages...
+echo [1/3] Збереження змін у Git...
+git add .
+git commit -m "Оновлення сайту: додано AR-примірку через камеру" >nul 2>&1
+
+echo [2/3] Відправка оновлень у гілку main...
+git push origin main
+
+echo [3/3] Публікація сайту на GitHub Pages...
 call npm run deploy
 
 if %ERRORLEVEL% neq 0 (
     echo.
-    echo Deployment failed. Please check the errors above.
-    echo (If this is the first time - run setup.bat first)
+    echo Не вдалося завершити публікацію.
+    echo Якщо з'явилося вікно входу GitHub — підтвердіть авторизацію в браузері.
     pause
     exit /b %ERRORLEVEL%
 )
 
 echo.
-echo [2/2] Deployment completed successfully!
-echo Your site will appear (or update) in 1-2 minutes at:
-echo https://marushchakvaleriy-alt.github.io/decor-rizdvo-site/
-echo.
+echo ====================================================
+echo   Успішно опубліковано!
+echo   Сайт оновиться за 1-2 хвилини за адресою:
+echo   https://marushchakvaleriy-alt.github.io/decor-rizdvo-site/
+echo ====================================================
 pause
